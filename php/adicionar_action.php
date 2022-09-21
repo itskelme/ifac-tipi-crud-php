@@ -1,21 +1,29 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CRUD</title>
-    </head>
-    <?php
-        require 'config.php';
-        $name = filter_input(INPUT_POST, 'name');
-        $email = filter_input(INPUT_POST, 'email');
-        if($name && $email) {
-            $sql = $pdo->prepare("INSERT INTO usuarios(name, email, VALUES)");
-        } else {
+<?php
+    require 'config.php';
+    $name = filter_input(INPUT_POST, 'name');
+    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+
+    if($name && $email) {
+        $sql = $pdo->prepare("INSERT INTO usuarios(name, email, VALUES)");
+        $sql->bindValue(':email', $email);
+        $sql->execute();
+
+        if($sql->rowCount() === 0) {
+            $sql = $pdo->prepare("INSERT INTO usuarios (nome, email) VALUES (:name, :email)");
+            $sql->bindValue(':name', $name);
+            $sql->bindParam(':email', $email);
+            $sql->execute();
+
+            header("location: index.php");
+            exit;  
+            
+        }
+        else {
             header("location: adicionar.php");
             exit;
         }
-
-    
-</html>
+    }else{
+        header("location: adicionar.php");
+        exit;
+    }
+?>
