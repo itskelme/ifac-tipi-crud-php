@@ -14,3 +14,7 @@ Introdução ao CRUD (criar, listar, editar e excluir) em PHP com PDO e MySQL.
 
 1. Crie um banco MySQL `test` (credenciais em `php/config.php`).
 2. `php -S localhost:8000 -t php` e abra http://localhost:8000
+
+## Licença
+
+[CC BY-NC 4.0](LICENSE): uso pessoal e modificação permitidos com atribuição; uso comercial proibido.
